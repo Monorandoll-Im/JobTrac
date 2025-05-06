@@ -41,14 +41,14 @@
 
         <Button
             android:id="@+id/selectFileButton"
-            android::text = "upload your Resume or File"
+            android:text = "upload your Resume or File"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"/>
 
         <TextView
-            android:id="@+id/fileName"
-            android::text = "No files selected"
+            android:id="@+id/fileNameText"
+            android:text = "No files selected"
             android:textSize="14sp"
             android:textColor="#444"
             android:layout_width="match_parent"

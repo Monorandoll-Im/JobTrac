@@ -9,13 +9,22 @@ import com.example.jobtrac.model.SubmittedForm
 import com.example.jobtrac.repo.FormRepository
 import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContracts
-
-
+import kotlinx.coroutines.selects.select
 
 
 class FormActivity : AppCompatActivity() {
     private val viewModel: JobViewModel by viewModels()
 
+    private lateinit var selectFileButton: Button
+    private lateinit var fileNameText: TextView
+    private var selectedFileUri: Uri? = null
+
+    private val filePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        if (uri != null) {
+            selectedFileUri = uri
+            fileNameText.text = "Selected: ${uri.lastPathSegment}"
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +35,13 @@ class FormActivity : AppCompatActivity() {
         val emailInput = findViewById<EditText>(R.id.inputEmail)
         val notesInput = findViewById<EditText>(R.id.inputNotes)
         val submitBtn = findViewById<Button>(R.id.submitButton)
+
+        selectFileButton = findViewById(R.id.selectFileButton)
+        fileNameText = findViewById(R.id.fileNameText)
+
+        selectFileButton.setOnClickListener{
+            filePickerLauncher.launch("*/*")
+        }
 
         submitBtn.setOnClickListener {
             val name = nameInput.text.toString().trim()
@@ -40,5 +56,7 @@ class FormActivity : AppCompatActivity() {
             Toast.makeText(this, "Application submitted!", Toast.LENGTH_SHORT).show()
             finish()
         }
+
     }
+
 }
