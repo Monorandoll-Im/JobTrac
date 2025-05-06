@@ -35,8 +35,24 @@
 
         <Button
             android:id="@+id/submitButton"
-            android:text="Submit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Submit" />
+
+        <Button
+            android:id="@+id/selectFileButton"
+            android::text = "upload your Resume or File"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/fileName"
+            android::text = "No files selected"
+            android:textSize="14sp"
+            android:textColor="#444"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"/>
     </LinearLayout>
 </ScrollView>

@@ -7,12 +7,16 @@ import androidx.activity.viewModels
 import com.example.jobtrac.viewmodel.JobViewModel
 import com.example.jobtrac.model.SubmittedForm
 import com.example.jobtrac.repo.FormRepository
+import android.net.Uri
+import androidx.activity.result.contract.ActivityResultContracts
 
 
 
 
 class FormActivity : AppCompatActivity() {
     private val viewModel: JobViewModel by viewModels()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form)
