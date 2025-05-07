@@ -13,6 +13,7 @@ import kotlinx.coroutines.selects.select
 import android.content.Intent
 
 
+
 class FormActivity : AppCompatActivity() {
     private val viewModel: JobViewModel by viewModels()
 
@@ -51,7 +52,7 @@ class FormActivity : AppCompatActivity() {
             val name = nameInput.text.toString().trim()
             val email = emailInput.text.toString().trim()
             val notes = notesInput.text.toString().trim()
-            val form = SubmittedForm(name, email, notes)
+            val form = SubmittedForm(name, email, notes, selectedFileUri?.toString())
 
             FormRepository.submittedForms.add(form)
 
@@ -63,19 +64,25 @@ class FormActivity : AppCompatActivity() {
 
         //Logic for reopening a previously saved file, pdfs.
         OpenFileButton.setOnClickListener{
-            selectedFileUri?.let {uri ->
-                val openIntent = Intent(Intent.ACTION_VIEW)
-                openIntent.setDataAndType(uri, contentResolver.getType(uri))
-                openIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            val form = FormRepository.submittedForms.lastOrNull()
+            val uri = form?.fileUri?.let { Uri.parse(it) }
 
-                try{
-                    startActivity(openIntent)
+            if (uri != null){
+                val mimeType = contentResolver.getType(uri) ?: "*/*"
+                val openIntent = Intent(Intent.ACTION_VIEW).apply {
+                    setDataAndType(uri, mimeType)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-                } catch (e: Exception){
-                    Toast.makeText(this,"No app selected to open this file.", Toast.LENGTH_SHORT).show()
                 }
+                if (openIntent.resolveActivity(packageManager)!= null){
+                    startActivity(openIntent)
+                }else{
+                    Toast.makeText(this, "Unable to open due to unsupported file type", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this,"No Recently Uploaded File Available", Toast.LENGTH_SHORT).show()
+            }
 
-            }?: Toast.makeText(this,"No Recent Files Available",Toast.LENGTH_SHORT).show()
         }
 
     }
