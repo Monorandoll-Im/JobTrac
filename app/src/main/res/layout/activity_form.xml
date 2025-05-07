@@ -41,7 +41,7 @@
 
         <Button
             android:id="@+id/selectFileButton"
-            android:text = "upload your Resume or File"
+            android:text = "Upload your resume"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"/>
@@ -54,5 +54,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id = "@+id/OpenFileButton"
+            android:text = "Open Recently Uploaded File"
+            android:layout_width = "match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
     </LinearLayout>
 </ScrollView>

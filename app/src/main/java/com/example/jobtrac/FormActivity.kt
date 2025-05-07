@@ -10,6 +10,7 @@ import com.example.jobtrac.repo.FormRepository
 import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContracts
 import kotlinx.coroutines.selects.select
+import android.content.Intent
 
 
 class FormActivity : AppCompatActivity() {
@@ -35,10 +36,13 @@ class FormActivity : AppCompatActivity() {
         val emailInput = findViewById<EditText>(R.id.inputEmail)
         val notesInput = findViewById<EditText>(R.id.inputNotes)
         val submitBtn = findViewById<Button>(R.id.submitButton)
+        val OpenFileButton = findViewById<Button>(R.id.OpenFileButton)
 
         selectFileButton = findViewById(R.id.selectFileButton)
         fileNameText = findViewById(R.id.fileNameText)
 
+
+        //Choosing to upload file
         selectFileButton.setOnClickListener{
             filePickerLauncher.launch("*/*")
         }
@@ -55,6 +59,23 @@ class FormActivity : AppCompatActivity() {
             // You can save this info to ViewModel, API, or local database
             Toast.makeText(this, "Application submitted!", Toast.LENGTH_SHORT).show()
             finish()
+        }
+
+        //Logic for reopening a previously saved file, pdfs.
+        OpenFileButton.setOnClickListener{
+            selectedFileUri?.let {uri ->
+                val openIntent = Intent(Intent.ACTION_VIEW)
+                openIntent.setDataAndType(uri, contentResolver.getType(uri))
+                openIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+                try{
+                    startActivity(openIntent)
+
+                } catch (e: Exception){
+                    Toast.makeText(this,"No app selected to open this file.", Toast.LENGTH_SHORT).show()
+                }
+
+            }?: Toast.makeText(this,"No Recent Files Available",Toast.LENGTH_SHORT).show()
         }
 
     }
